@@ -1,0 +1,10 @@
+.DS_Store
+node_modules
+web/node_modules
+web/.next
+web/.git.disabled
+web/data/*.tmp
+review-interface/backend/data/*.db-shm
+review-interface/backend/data/*.db-wal
+review-interface/backend/.pytest_cache
+review-interface/backend/**/__pycache__

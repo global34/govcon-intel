@@ -1,0 +1,70 @@
+from __future__ import annotations
+
+from .models import ReportPublishRequest
+
+
+SEED_REPORTS: list[ReportPublishRequest] = [
+    ReportPublishRequest(
+        id="rpt_20260306_101",
+        title="Sample Opportunity Alert: Facilities support requirement moves toward recompete planning",
+        summary="Illustrative seed alert for the prototype. A recurring facilities support requirement is entering pre-solicitation planning, creating a near-term watch item for incumbency mapping and teaming outreach.",
+        body="## Bottom line\nA recurring facilities support requirement is approaching a new planning cycle and should be treated as a near-term watch item.\n\n## What changed\nProgram planning activity indicates the requirement is moving toward a new acquisition window. No final solicitation details are included in this sample.\n\n## Why it matters\nThe work is broad enough to support multiple service lanes, which makes early customer and partner mapping more valuable than waiting for a final release.\n\n## Action items\n- Confirm incumbent footprint\n- Identify likely subcontract lanes\n- Prepare a one-page capability alignment note",
+        date="2026-03-04",
+        reportType="opportunity_alert",
+        sourceAgency="Illustrative Federal Facilities Agency",
+        priority="high",
+        status="in_review",
+        actionItems=[
+            "Confirm incumbent footprint",
+            "Identify likely subcontract lanes",
+            "Prepare a one-page capability alignment note",
+        ],
+        uncertaintyNote="Illustrative seed content for prototype use. Final scope, timing, and vehicle are not specified.",
+        createdBy="Briefing Writer",
+        createdByType="agent",
+        changeSummary="Initial sample seeded for review",
+        createdAt="2026-03-06T17:45:00Z",
+    ),
+    ReportPublishRequest(
+        id="rpt_20260306_102",
+        title="Sample Compliance Warning: Reporting language suggests tighter documentation expectations",
+        summary="Illustrative seed warning for the prototype. Updated reporting language signals that vendors may face closer scrutiny on submission completeness and traceability.",
+        body="## Bottom line\nUpdated reporting language suggests closer scrutiny on completeness, auditability, and traceability.\n\n## What changed\nThe revised language puts more weight on how documentation lines up across the submission package.\n\n## Why it matters\nTeams that wait until final assembly to reconcile source artifacts may face avoidable rework.\n\n## Action items\n- Tighten source-to-claim traceability\n- Review submission checklist ownership\n- Validate supporting attachments early",
+        date="2026-03-05",
+        reportType="compliance_warning",
+        sourceAgency="Illustrative Oversight Office",
+        priority="medium",
+        status="in_review",
+        actionItems=[
+            "Tighten source-to-claim traceability",
+            "Review submission checklist ownership",
+            "Validate supporting attachments early",
+        ],
+        uncertaintyNote="Illustrative seed content for workflow testing.",
+        createdBy="Briefing Writer",
+        createdByType="agent",
+        changeSummary="Initial sample seeded for review",
+        createdAt="2026-03-06T17:46:00Z",
+    ),
+    ReportPublishRequest(
+        id="rpt_20260306_103",
+        title="Sample Budget Signal Brief: Civilian cloud transition line item opens follow-on services path",
+        summary="Illustrative seed summary for the prototype. Keep this to one or two sentences for feed display.",
+        body="## Bottom line\nLead with the point.\n\n## What changed\nShort factual paragraphs in markdown.\n\n## Why it matters\nState the operational relevance without hype.\n\n## Action items\n- Track the next notice\n- Confirm timing\n- Prepare partner questions",
+        date="2026-03-06",
+        reportType="budget_signal_brief",
+        sourceAgency="Illustrative Civilian Agency",
+        priority="high",
+        status="draft",
+        actionItems=[
+            "Track the next notice",
+            "Confirm timing with the contracting office",
+            "Prepare capability-to-requirement mapping",
+        ],
+        uncertaintyNote="Illustrative seed content for workflow testing.",
+        createdBy="Briefing Writer",
+        createdByType="agent",
+        changeSummary="Initial draft created",
+        createdAt="2026-03-06T17:45:00Z",
+    ),
+]
