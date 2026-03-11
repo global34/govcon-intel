@@ -4,6 +4,10 @@ web/node_modules
 web/.next
 web/.git.disabled
 web/data/*.tmp
+web/src/content/**
+!web/src/content/.gitkeep
+web/public/uploads/**
+!web/public/uploads/.gitkeep
 review-interface/backend/data/*.db-shm
 review-interface/backend/data/*.db-wal
 review-interface/backend/.pytest_cache
