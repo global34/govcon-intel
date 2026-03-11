@@ -8,3 +8,7 @@ review-interface/backend/data/*.db-shm
 review-interface/backend/data/*.db-wal
 review-interface/backend/.pytest_cache
 review-interface/backend/**/__pycache__
+__pycache__/
+.ssh/
+.vps-redstone/
+CEO Goals.md

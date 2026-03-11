@@ -95,3 +95,8 @@ export type ReportDetail = {
   comments: ReportComment[];
   statusHistory: StatusHistoryEvent[];
 };
+
+export type ReportFeed = {
+  items: ReportSummary[];
+  total: number;
+};

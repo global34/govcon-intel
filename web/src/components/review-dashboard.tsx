@@ -15,6 +15,7 @@ export function ReviewDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [isLoadingList, setIsLoadingList] = useState(true);
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
   const deferredSearch = useDeferredValue(search);
 
   useEffect(() => {
@@ -108,6 +109,42 @@ export function ReviewDashboard() {
     };
   }, [selectedId]);
 
+  async function publishSelected() {
+    if (!detail) {
+      return;
+    }
+
+    setIsPublishing(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`${API_BASE}/reports/${detail.id}/status`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          status: "approved",
+          note: "Approved for public signals.",
+          changedBy: "Internal reviewer",
+          changedByType: "reviewer",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Publish request failed with ${response.status}`);
+      }
+
+      const body = (await response.json()) as ReportDetail;
+      setDetail(body);
+      setReports((current) =>
+        current.map((item) => (item.id === body.id ? { ...item, status: body.status, updatedAt: body.updatedAt } : item)),
+      );
+    } catch (publishError) {
+      setError(publishError instanceof Error ? publishError.message : "Could not publish the selected report.");
+    } finally {
+      setIsPublishing(false);
+    }
+  }
+
   return (
     <div className="review-dashboard">
       <section className="review-toolbar card">
@@ -195,6 +232,17 @@ export function ReviewDashboard() {
                 </p>
                 <h3>{detail.title}</h3>
                 <p className="section-copy">{detail.summary}</p>
+              </div>
+              <div className="button-row">
+                {detail.status !== "approved" ? (
+                  <button className="button button--primary" type="button" onClick={() => void publishSelected()} disabled={isPublishing}>
+                    {isPublishing ? "Publishing..." : "Approve + publish to Signals"}
+                  </button>
+                ) : (
+                  <a className="button button--primary" href={`/signals/${detail.id}`}>
+                    View on public site
+                  </a>
+                )}
               </div>
               <div className="detail-copy">
                 <p>{detail.body}</p>
