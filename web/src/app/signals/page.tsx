@@ -1,28 +1,10 @@
 import Link from "next/link";
 
 import { signalPosts } from "@/lib/site-data";
-import type { ReportFeed } from "@/lib/review-types";
-
-const REVIEW_API_INTERNAL_BASE = process.env.REVIEW_API_INTERNAL_BASE ?? "http://127.0.0.1:8010/api";
-
-async function loadApprovedSignals(): Promise<ReportFeed | null> {
-  try {
-    const upstream = new URL(`${REVIEW_API_INTERNAL_BASE}/reports`);
-    upstream.searchParams.set("status", "approved");
-
-    const response = await fetch(upstream, { cache: "no-store" });
-    if (!response.ok) {
-      return null;
-    }
-    return (await response.json()) as ReportFeed;
-  } catch {
-    return null;
-  }
-}
+import { listPublicSignals } from "@/lib/public-signals";
 
 export default async function SignalsPage() {
-  const feed = await loadApprovedSignals();
-  const approved = feed?.items ?? [];
+  const items = await listPublicSignals();
 
   return (
     <div className="page-frame">
@@ -35,18 +17,18 @@ export default async function SignalsPage() {
             not long ungated essays.
           </p>
           <div className="signal-grid">
-            {approved.length > 0
-              ? approved.map((report) => (
-                  <article className="card signal-card" key={report.id}>
+            {items.length > 0
+              ? items.map((item) => (
+                  <article className="card signal-card" key={`${item.source}:${item.slug}`}>
                     <div className="signal-card__meta">
-                      <span className="tag">{report.reportType}</span>
-                      <span>{report.date}</span>
+                      <span className="tag">{item.tag}</span>
+                      <span>{item.date}</span>
                     </div>
-                    <h2>{report.title}</h2>
-                    <p>{report.summary}</p>
+                    <h2>{item.title}</h2>
+                    <p>{item.summary}</p>
                     <div className="signal-card__footer">
-                      <span>{report.sourceAgency}</span>
-                      <Link href={`/signals/${report.id}`}>Read signal</Link>
+                      {"sourceAgency" in item ? <span>{item.sourceAgency}</span> : <span />}
+                      <Link href={`/signals/${item.slug}`}>Read signal</Link>
                     </div>
                   </article>
                 ))

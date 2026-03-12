@@ -3,29 +3,12 @@ import Link from "next/link";
 import { SignupForm } from "@/components/signup-form";
 import { keystaticReader } from "@/lib/keystatic-reader";
 import { premiumPackages, signalPosts } from "@/lib/site-data";
-import type { ReportFeed } from "@/lib/review-types";
-
-const REVIEW_API_INTERNAL_BASE = process.env.REVIEW_API_INTERNAL_BASE ?? "http://127.0.0.1:8010/api";
-
-async function loadApprovedSignals(): Promise<ReportFeed | null> {
-  try {
-    const upstream = new URL(`${REVIEW_API_INTERNAL_BASE}/reports`);
-    upstream.searchParams.set("status", "approved");
-
-    const response = await fetch(upstream, { cache: "no-store" });
-    if (!response.ok) {
-      return null;
-    }
-    return (await response.json()) as ReportFeed;
-  } catch {
-    return null;
-  }
-}
+import { listPublicSignals } from "@/lib/public-signals";
 
 export default async function Home() {
   const homepage = await keystaticReader.singletons.homepage.read().catch(() => null);
-  const feed = await loadApprovedSignals();
-  const approved = feed?.items ?? [];
+  const items = await listPublicSignals();
+  const featured = items.slice(0, 3);
 
   const heroEyebrow = homepage?.heroEyebrow ?? "Signal-first federal intelligence";
   const heroHeadline = homepage?.heroHeadline ?? "Veteran-owned federal intelligence built to convert readers into subscribers.";
@@ -94,16 +77,16 @@ export default async function Home() {
             </Link>
           </div>
           <div className="signal-grid">
-            {approved.length > 0
-              ? approved.slice(0, 3).map((report) => (
-                  <article className="card signal-card" key={report.id}>
+            {featured.length > 0
+              ? featured.map((report) => (
+                  <article className="card signal-card" key={`${report.source}:${report.slug}`}>
                     <div className="signal-card__meta">
-                      <span className="tag">{report.reportType}</span>
+                      <span className="tag">{report.tag}</span>
                       <span>{report.date}</span>
                     </div>
                     <h3>{report.title}</h3>
                     <p>{report.summary}</p>
-                    <Link className="text-link" href={`/signals/${report.id}`}>
+                    <Link className="text-link" href={`/signals/${report.slug}`}>
                       Read signal
                     </Link>
                   </article>
